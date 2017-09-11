@@ -48,9 +48,10 @@ class Form extends React.Component{
 		return(
 			<section className='userInterface'>
 				<form onSubmit={(event) => this.submitForm(event)}>
-					<h2>How much time do you have to kill?</h2>
+					<h2>How much time do you have?</h2>
 					<input type='number' name='time' onChange={(event) => this.handleChange(event)}/>
 					<label htmlFor="time">hours</label>
+					<input type="range" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
 					<button>Submit</button>
 				</form>
 			</section>
@@ -68,6 +69,15 @@ class Header extends React.Component{
 		this.login = this.login.bind(this);
 		this.logout = this.logout.bind(this);
 	}
+	componentDidMount() {
+		auth.onAuthStateChanged((user) => {
+			if(user){
+				this.setState({
+					user: user,
+				});
+			}
+		});
+	}
 	login() {
 		auth.signInWithPopup(provider) 
 		.then((result) => {
@@ -75,6 +85,7 @@ class Header extends React.Component{
 				this.setState({
 				user: user,
 			});
+			this.props.getUser(this.state.user);
 		});
 	}
 	logout() {
@@ -83,6 +94,7 @@ class Header extends React.Component{
 			this.setState({
 				user: null
 			});
+			this.props.getUser(this.state.user);
 		});
 	}
 	render(){
@@ -111,7 +123,6 @@ class ResultsContainer extends React.Component{
 			<div className="resultsContainer">
 				<form onSubmit={this.savePlaylist}>
 					<h2>Here's your playlist!</h2>
-					{console.log(this.props.playlist)}
 					{
 						this.props.playlist.map((movie) => {
 							return(
@@ -158,7 +169,9 @@ class App extends React.Component {
 			playlist: [],
 			playlistComplete: false,
 			availableTime: 0,
+			user: null,
 		}
+		this.getUser = this.getUser.bind(this);
 	}
 	acceptResults(movieList){
 		this.setState({
@@ -220,21 +233,42 @@ class App extends React.Component {
 			);
 		}
 	}
+	getUser(user){
+		console.log('user', user);
+		this.setState({
+			user: user,
+		});
+	}
 	render(){
 		return(
 			<div className='app'>
-				<Header />
+				<Header getUser={this.getUser}/>
 				<main>
-					{this.displayContent()}
-					<aside className='savedPlaylists'>
-						<h3>Saved Playlists</h3>
-						<ul></ul>
-					</aside>
+					<div className="wrapper">
+						{this.state.user ?
+							<div>
+								{this.displayContent()}
+								<aside className='savedPlaylists'>
+									<h3>Saved Playlists</h3>
+									<ul></ul>
+								</aside>
+								<div className='user-profile'>
+									<img src={this.state.user.photoURL} />
+								</div>
+							</div>
+							:
+							<div>
+								<h2>You must be logged in to use the playlist generator.</h2>
+							</div>
+						}
+					</div>
 				</main>
 				<footer>
-					<h6>&copy; 2017 Brett Nielsen</h6>
-					<img src="#" alt="The Movie DB logo"/>
-					<h6>Using The Movie DB API</h6>
+					<div className="wrapper">
+						<h6>&copy; 2017 Brett Nielsen</h6>
+						<img src="/assets/moviedb-logo.svg" alt="The Movie DB logo"/>
+						<h6>Using The Movie DB API</h6>
+					</div>
 				</footer>
 			</div>
 		);

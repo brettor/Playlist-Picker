@@ -4,80 +4,240 @@ import {
 	BrowserRouter as Router,
 	Route, Link } from 'react-router-dom';
 import { ajax } from 'jquery';
+import firebase, {auth, provider} from './firebase.js';
 
-// get viewing length from user
-class GetTime extends React.Component{
+const dbRef = firebase.database().ref('/playlists');
+
+// get input from user
+class Form extends React.Component{
 	constructor(){
 		super();
 		this.state = {
-			time: ''
+			time: '',
+			movies: [],
 		}
 		this.handleChange = this.handleChange.bind(this);
+		this.submitForm = this.submitForm.bind(this);
 	}
-	handleChange(event){
-		this.setState({
-			[event.target.name]: event.target.value
-		})
-	}
-	render(){
-		return(
-			<input type="text" name="time" onChange={(event) => this.handleChange(event)}/>
-		)
-	}
-}
-
-// take the time from user and break into pieces of even length to get movies for (if statements)
-
-// pass into ajax call to TMDb (with_runtime.gte or .lte)
-class GetPlaylist extends React.Component{
-	constructor(){
-		super();
-		this.state = {
-			movies: []
-		}
-	}
-	componentDidMount(){
+	submitForm(event){
+		event.preventDefault();
 		ajax({
 			url: `https://api.themoviedb.org/3/discover/movie`,
 			data: {
 				api_key: `0cff5ebc18cb240711f23c9648e60c99`,
 				sort_by: 'vote_average.desc',
-				'with_runtime.lte': 90,
+				with_original_language: 'en',
+				'vote_count.gte': 150,
 				'with_runtime.gte': 60,
-				page: 1
+				'with_runtime.lte': 360,
+				page: Math.floor(Math.random() * 206) + 1,
 			}
 		}).then((res) => {
+			const pages = res.total_pages;
 			const movies = res.results;
-			this.setState({
-				movies: movies
-			})
+			this.props.onAcceptTime(this.state.time);
+			this.props.onAcceptResults(movies);
+		});
+	}
+	handleChange(event){
+		this.setState({
+			[event.target.name]: event.target.value
 		});
 	}
 	render(){
-		console.log(this.state.movies);
 		return(
-			<div>I'm working!</div>
+			<section className='userInterface'>
+				<form onSubmit={(event) => this.submitForm(event)}>
+					<h2>How much time do you have to kill?</h2>
+					<input type='number' name='time' onChange={(event) => this.handleChange(event)}/>
+					<label htmlFor="time">hours</label>
+					<button>Submit</button>
+				</form>
+			</section>
+		);
+	}
+}
+
+// header functionality (authentication)
+class Header extends React.Component{
+	constructor(){
+		super();
+		this.state = {
+			user: null,
+		}
+		this.login = this.login.bind(this);
+		this.logout = this.logout.bind(this);
+	}
+	login() {
+		auth.signInWithPopup(provider) 
+		.then((result) => {
+			const user = result.user;
+				this.setState({
+				user: user,
+			});
+		});
+	}
+	logout() {
+		auth.signOut()
+		.then(() => {
+			this.setState({
+				user: null
+			});
+		});
+	}
+	render(){
+		return(
+			<header>
+				<h1>Movie Playlist Generator</h1>
+				{this.state.user ?
+					<button onClick={this.logout}>Log Out</button>
+					:
+					<button onClick={this.login}>Log In</button>
+				}
+			</header>
 		)
 	}
 }
 
-// create a playlist from returned results that equals user time +/- 30 min
-// run detailed API call to get the rest of the info back for the selected movies (runtime, poster)
-// display playlist on page 
-// upon pressing save button, show playlist in saved section and save to firebase
-// upon clicking remove button on saved playlist, remove it from server and from page
-
-
-// the daddy app component
-class App extends React.Component {
+// display results to user
+class ResultsContainer extends React.Component{
+	savePlaylist(event){
+		event.preventDefault();
+		const playlist = this.props.playlist;
+		dbRef.push(playlist);
+	}
 	render(){
 		return(
-			<div>
-				<h1>I'm Working!</h1>
-				<GetPlaylist />
-				<GetTime />
+			<div className="resultsContainer">
+				<form onSubmit={this.savePlaylist}>
+					<h2>Here's your playlist!</h2>
+					{console.log(this.props.playlist)}
+					{
+						this.props.playlist.map((movie) => {
+							return(
+								<Movie 
+									movieBackdrop = {movie.backdrop_path}
+									moviePoster = {movie.poster_path}
+									movieTitle = {movie.original_title}
+									movieTagline = {movie.tagline}
+									movieDescription = {movie.overview}
+									key = {movie.id}
+								/>
+							);
+						})
+					}
+					<h4>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h4>
+					<button>Save</button>
+				</form>
+			</div>
+		);
+	}
+}
+
+class Movie extends React.Component{
+	render(){
+		return(
+			<div className="movieContainer">
+				<img src={`https://image.tmdb.org/t/p/w500/${this.props.movieBackdrop}`} alt="Movie Backdrop"/>
+				<img src={`https://image.tmdb.org/t/p/w154/${this.props.moviePoster}`} alt="Movie Poster"/>
+				<h2>{this.props.movieTitle}</h2>
+				<h4>{this.props.movieTagline}</h4>
+				<p>{this.props.movieDescription}</p>
 			</div>
 		)
+	}
+}
+
+// the master app component
+class App extends React.Component {
+	constructor(){
+		super();
+		this.state = {
+			movies: [],
+			timeInMinutes: 0,
+			playlist: [],
+			playlistComplete: false,
+			availableTime: 0,
+		}
+	}
+	acceptResults(movieList){
+		this.setState({
+			movies: movieList,
+		});
+		this.createPlaylist();
+	}
+	acceptTime(hours){
+		let minutes = hours * 60;
+		this.setState({
+			timeInMinutes: minutes,
+		});
+	}
+	createPlaylist(){
+		let playlist = [];
+		let availableTime = this.state.timeInMinutes;
+		for(let i = 0; i < this.state.movies.length; i++){
+			let movieId = this.state.movies[i].id;
+			ajax({
+				url: `https://api.themoviedb.org/3/movie/${movieId}`,
+				data: {
+					api_key: `0cff5ebc18cb240711f23c9648e60c99`,
+					language: 'en-US',
+				}
+			}).then((res) => {
+				let runtime = res.runtime;
+				let movieFits = runtime < availableTime;
+				if(movieFits === true){
+					playlist.push(res);
+					availableTime = availableTime - runtime;
+				}
+				this.setState({
+					playlist: playlist,
+					availableTime: availableTime,
+				});
+				if(i === (this.state.movies.length - 1)){
+					this.setState({
+						playlistComplete: true,
+					});
+				}
+			});
+		}
+	}
+	displayContent(){
+		if(this.state.playlistComplete === false){
+			return(
+				<Form 
+					onAcceptResults={(movieList) => this.acceptResults(movieList)}
+					onAcceptTime={(hours) => this.acceptTime(hours)}
+				/>
+			);
+		}
+		else{
+			return(
+				<ResultsContainer 
+					playlist={this.state.playlist}
+					availableTime={this.state.availableTime}
+				/>
+			);
+		}
+	}
+	render(){
+		return(
+			<div className='app'>
+				<Header />
+				<main>
+					{this.displayContent()}
+					<aside className='savedPlaylists'>
+						<h3>Saved Playlists</h3>
+						<ul></ul>
+					</aside>
+				</main>
+				<footer>
+					<h6>&copy; 2017 Brett Nielsen</h6>
+					<img src="#" alt="The Movie DB logo"/>
+					<h6>Using The Movie DB API</h6>
+				</footer>
+			</div>
+		);
 	}
 }
 

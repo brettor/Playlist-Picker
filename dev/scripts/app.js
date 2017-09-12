@@ -10,17 +10,20 @@ const dbRef = firebase.database().ref('/playlists');
 
 // get input from user
 class Form extends React.Component{
-	constructor(){
+	constructor(props){
 		super();
 		this.state = {
 			time: '',
 			movies: [],
+			quality: 1
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.submitForm = this.submitForm.bind(this);
 	}
 	submitForm(event){
 		event.preventDefault();
+		console.log(this.props)
+		this.props.reset();
 		let pageMin = this.state.quality* 10 - 9;
 		let pageMax = this.state.quality* 10;
 		console.log(pageMin, pageMax);
@@ -45,6 +48,7 @@ class Form extends React.Component{
 	}
 	handleChange(event){
 		this.setState({
+
 			[event.target.name]: event.target.value
 		});
 	}
@@ -53,11 +57,11 @@ class Form extends React.Component{
 			<section className='userInterface'>
 				<form onSubmit={(event) => this.submitForm(event)}>
 					<h2>How much time do you have?</h2>
-					<input type='number' name='time' onChange={(event) => this.handleChange(event)}/>
+					<input required type='number' name='time' onChange={(event) => this.handleChange(event)}/>
 					<label htmlFor="time">hours</label>
 					<h4>Video Quality</h4>
 					<label htmlFor="quality">Good</label>
-					<input type="range" name='quality' min="1" max="20" onChange={(event) => this.handleChange(event)}/>
+					<input type="range" name='quality' min="1" max="20" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
 					<label htmlFor="quality">Bad</label>
 					<button>Submit</button>
 				</form>
@@ -86,10 +90,18 @@ class Header extends React.Component{
 
 // display results to user
 class ResultsContainer extends React.Component{
+	constructor(){
+		super();
+		this.savePlaylist = this.savePlaylist.bind(this);
+	}
 	savePlaylist(event){
 		event.preventDefault();
 		const playlist = this.props.playlist;
 		dbRef.push(playlist);
+	}
+	retry(event){
+		event.preventDefault();
+
 	}
 	render(){
 		return(
@@ -112,7 +124,7 @@ class ResultsContainer extends React.Component{
 					}
 					<h3>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h3>
 					<button onClick={this.savePlaylist}>Save</button>
-					<button onClick={this.retry}>Retry</button>
+					<button onClick={this.props.retry}>Retry</button>
 				</form>
 			</div>
 		);
@@ -128,6 +140,7 @@ class Movie extends React.Component{
 				<h2>{this.props.movieTitle}</h2>
 				<h4>{this.props.movieTagline}</h4>
 				<p>{this.props.movieDescription}</p>
+				<button>Remove</button>
 			</div>
 		)
 	}
@@ -147,6 +160,8 @@ class App extends React.Component {
 			retryButton: false
 		}
 		this.getUser = this.getUser.bind(this);
+		this.toggleTrue = this.toggleTrue.bind(this);
+		this.toggleFalse = this.toggleFalse.bind(this);
 		this.login = this.login.bind(this);
 		this.logout = this.logout.bind(this);
 	}
@@ -221,11 +236,12 @@ class App extends React.Component {
 		}
 	}
 	displayContent(){
-		if(this.state.playlistComplete === false || this.props.retryButton === true){
+		if(this.state.playlistComplete === false || this.state.retryButton === true){
 			return(
 				<Form 
 					onAcceptResults={(movieList) => this.acceptResults(movieList)}
 					onAcceptTime={(hours) => this.acceptTime(hours)}
+					reset={this.toggleFalse}
 				/>
 			);
 		}
@@ -234,14 +250,35 @@ class App extends React.Component {
 				<ResultsContainer 
 					playlist={this.state.playlist}
 					availableTime={this.state.availableTime}
+					retry={this.toggleTrue}
 				/>
 			);
 		}
+	}
+	toggleTrue(){
+		this.setState({
+			retryButton: true,
+		});
+	}
+	toggleFalse(){
+		this.setState({
+			retryButton: false,
+		});
 	}
 	getUser(user){
 		this.setState({
 			user: user,
 		});
+	}
+	savedPlaylists(){
+		<aside className='savedPlaylists'>
+			<h3>Saved Playlists</h3>
+			<ul></ul>
+		</aside>
+	}
+	removeSaved(key) {
+		const itemRef = firebase.database().ref(`/items/${key}`);
+		itemRef.remove();
 	}
 	render(){
 		return(
@@ -252,10 +289,7 @@ class App extends React.Component {
 						{this.state.user ?
 							<div>
 								{this.displayContent()}
-								<aside className='savedPlaylists'>
-									<h3>Saved Playlists</h3>
-									<ul></ul>
-								</aside>
+								{this.savedPlaylists()}
 								<div className='user-profile'>
 									<img src={this.state.user.photoURL} />
 								</div>

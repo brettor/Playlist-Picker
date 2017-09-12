@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-	BrowserRouter as Router,
-	Route, Link } from 'react-router-dom';
 import { ajax } from 'jquery';
 import firebase, {auth, provider} from './firebase.js';
 
@@ -54,18 +51,16 @@ class Form extends React.Component{
 	}
 	render(){
 		return(
-			<section className='userInterface'>
-				<form onSubmit={(event) => this.submitForm(event)}>
-					<h2>How much time do you have?</h2>
-					<input required type='number' name='time' onChange={(event) => this.handleChange(event)}/>
-					<label htmlFor="time">hours</label>
-					<h4>Video Quality</h4>
-					<label htmlFor="quality">Good</label>
-					<input type="range" name='quality' min="1" max="20" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
-					<label htmlFor="quality">Bad</label>
-					<button>Submit</button>
-				</form>
-			</section>
+			<form className='userInput' onSubmit={(event) => this.submitForm(event)}>
+				<h2>How much time do you have?</h2>
+				<input required type='number' name='time' onChange={(event) => this.handleChange(event)}/>
+				<label htmlFor="time">hours</label>
+				<h4>Video Quality</h4>
+				<label htmlFor="quality">Good</label>
+				<input type="range" name='quality' min="1" max="20" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
+				<label htmlFor="quality">Bad</label>
+				<button>Submit</button>
+			</form>
 		);
 	}
 }
@@ -76,7 +71,10 @@ class Header extends React.Component{
 		return(
 			<header>
 				<div className="wrapper">
+					<img src="/assets/film-reel.svg" alt="Film reel"/>
 					<h1>Movie Playlist Generator</h1>
+					{/*Created by Bohdan Burmich*/}
+					{/*from the Noun Project*/}
 					{this.props.user ?
 						<button onClick={this.props.logout}>Log Out</button>
 						:
@@ -101,31 +99,28 @@ class ResultsContainer extends React.Component{
 	}
 	retry(event){
 		event.preventDefault();
-
 	}
 	render(){
 		return(
 			<div className="resultsContainer">
-				<form>
-					<h2>Here's your playlist!</h2>
-					{
-						this.props.playlist.map((movie) => {
-							return(
-								<Movie 
-									movieBackdrop = {movie.backdrop_path}
-									moviePoster = {movie.poster_path}
-									movieTitle = {movie.original_title}
-									movieTagline = {movie.tagline}
-									movieDescription = {movie.overview}
-									key = {movie.id}
-								/>
-							);
-						})
-					}
-					<h3>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h3>
-					<button onClick={this.savePlaylist}>Save</button>
-					<button onClick={this.props.retry}>Retry</button>
-				</form>
+				<h2>Here's your playlist!</h2>
+				{
+					this.props.playlist.map((movie) => {
+						return(
+							<Movie 
+								movieBackdrop = {movie.backdrop_path}
+								moviePoster = {movie.poster_path}
+								movieTitle = {movie.original_title}
+								movieTagline = {movie.tagline}
+								movieDescription = {movie.overview}
+								key = {movie.id}
+							/>
+						);
+					})
+				}
+				<h3>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h3>
+				<button onClick={this.savePlaylist}>Save</button>
+				<button onClick={this.props.retry}>Retry</button>
 			</div>
 		);
 	}
@@ -140,7 +135,7 @@ class Movie extends React.Component{
 				<h2>{this.props.movieTitle}</h2>
 				<h4>{this.props.movieTagline}</h4>
 				<p>{this.props.movieDescription}</p>
-				<button>Remove</button>
+				<h5>{`Run Time: ${this.props.runtime} minutes`}</h5>
 			</div>
 		)
 	}
@@ -157,13 +152,15 @@ class App extends React.Component {
 			playlistComplete: false,
 			availableTime: 0,
 			user: null,
-			retryButton: false
+			retryButton: false,
+			playlists: []
 		}
 		this.getUser = this.getUser.bind(this);
 		this.toggleTrue = this.toggleTrue.bind(this);
 		this.toggleFalse = this.toggleFalse.bind(this);
 		this.login = this.login.bind(this);
 		this.logout = this.logout.bind(this);
+		this.removeSaved = this.removeSaved.bind(this);
 	}
 	componentDidMount() {
 		auth.onAuthStateChanged((user) => {
@@ -172,6 +169,18 @@ class App extends React.Component {
 					user: user,
 				});
 			}
+		});
+		dbRef.on('value', (snapshot) => {
+			const newItemsArray = [];
+			const firebaseItems = snapshot.val();
+			for (let key in firebaseItems){
+				const firebaseItem = firebaseItems[key];
+				firebaseItem.id = key;
+				newItemsArray.push(firebaseItem);
+			}
+			this.setState({
+				playlists: newItemsArray,
+			});
 		});
 	}
 	login() {
@@ -271,13 +280,32 @@ class App extends React.Component {
 		});
 	}
 	savedPlaylists(){
-		<aside className='savedPlaylists'>
-			<h3>Saved Playlists</h3>
-			<ul></ul>
-		</aside>
+		return(
+			<aside className='savedPlaylists'>
+				<h3>Saved Playlists</h3>
+				<ul>
+					{this.state.playlists.map(item => {
+						return (
+							<li key={item.id}>
+								{item.map(movie => {
+									return (
+										<div className="savedContainer" key={movie.id}>
+											<img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Movie Backdrop"/>
+											<h4>{movie.original_title}</h4>
+											<h5>{`Run Time: ${movie.runtime} minutes`}</h5>
+										</div>
+									)
+								})}
+								<button onClick={() => this.removeSaved(item.id)}>Remove</button>
+							</li>
+						);
+					})}
+				</ul>
+			</aside>
+		)
 	}
 	removeSaved(key) {
-		const itemRef = firebase.database().ref(`/items/${key}`);
+		const itemRef = firebase.database().ref(`/playlists/${key}`);
 		itemRef.remove();
 	}
 	render(){
@@ -285,21 +313,19 @@ class App extends React.Component {
 			<div className='app'>
 				<Header getUser={this.getUser} login={this.login} logout={this.logout} user={this.state.user}/>
 				<main>
-					<div className="wrapper">
-						{this.state.user ?
-							<div>
+					{this.state.user ?
+						<div className="wrapper">
+							<div class="mainContainer">
 								{this.displayContent()}
 								{this.savedPlaylists()}
-								<div className='user-profile'>
-									<img src={this.state.user.photoURL} />
-								</div>
 							</div>
-							:
-							<div>
-								<h2>You must be logged in to use the playlist generator.</h2>
-							</div>
-						}
-					</div>
+							<img src={this.state.user.photoURL}/>
+						</div>
+						:
+						<div className="wrapper">
+							<h2>You must be logged in to use the playlist generator.</h2>
+						</div>
+					}
 				</main>
 				<footer>
 					<div className="wrapper">

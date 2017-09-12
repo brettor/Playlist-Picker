@@ -1,0 +1,97 @@
+// general styles
+*{
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+}
+html{
+	font-size: 62.5%;
+	height: 100vh;
+}
+body {
+	font-family: 'Open Sans', sans-serif;
+	background-color: $mainGrey;
+}
+.wrapper{
+	max-width: 110rem;
+	margin: 0 auto;
+}
+img{
+	display: block;
+	max-width: 100%;
+}
+button{
+	color: $accentDark;
+	background: $coolGreen;
+	font-size: 1.6rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	min-width: 15rem;
+	border-radius: 0.4rem;
+	cursor: pointer;
+	border: 0;
+	box-shadow: 0 2px 5px 0 $accentDark;
+	padding: 1rem 0.5rem;
+}
+// header styles
+header{
+	color: $mainGrey;
+	background-color: $accentDark;
+	.wrapper{
+		padding: 2rem 0 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	img{
+		width: 10rem;
+	}
+	h1{
+		text-transform: uppercase;
+		font-size: 3rem;
+		margin-bottom: 2rem;
+	}
+	button{
+		margin-bottom: 2rem;
+	}
+}
+// main styles
+main{
+	.wrapper{
+		padding: 4rem 0;
+		height: 75vh;
+		position: relative;
+	}
+	img{
+		border-radius: 50%;
+		width: 10rem;
+		position: absolute;
+		bottom: 2rem;
+		left: 2rem;
+		box-shadow: 0 2px 5px 0 $accentDark;
+	}
+}
+form{
+	background: $crazyOrange;
+}
+aside{
+	background: $darkBlue;
+}
+// footer styles
+footer{
+	color: $mainGrey;
+	background: $accentDark;
+	.wrapper{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 0;
+	}
+	h6{
+		font-size: 1.4rem;
+		letter-spacing: 0.1rem;
+	}
+	img{
+		width: 5rem;
+	}
+}

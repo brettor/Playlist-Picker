@@ -21,6 +21,9 @@ class Form extends React.Component{
 	}
 	submitForm(event){
 		event.preventDefault();
+		let pageMin = this.state.quality* 10 - 9;
+		let pageMax = this.state.quality* 10;
+		console.log(pageMin, pageMax);
 		ajax({
 			url: `https://api.themoviedb.org/3/discover/movie`,
 			data: {
@@ -30,9 +33,10 @@ class Form extends React.Component{
 				'vote_count.gte': 150,
 				'with_runtime.gte': 60,
 				'with_runtime.lte': 360,
-				page: Math.floor(Math.random() * 206) + 1,
+				page: Math.floor(Math.random() * (pageMax - pageMin) + pageMin),
 			}
 		}).then((res) => {
+			console.log(res);
 			const pages = res.total_pages;
 			const movies = res.results;
 			this.props.onAcceptTime(this.state.time);
@@ -51,7 +55,10 @@ class Form extends React.Component{
 					<h2>How much time do you have?</h2>
 					<input type='number' name='time' onChange={(event) => this.handleChange(event)}/>
 					<label htmlFor="time">hours</label>
-					<input type="range" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
+					<h4>Video Quality</h4>
+					<label htmlFor="quality">Good</label>
+					<input type="range" name='quality' min="1" max="20" onChange={(event) => this.handleChange(event)}/>
+					<label htmlFor="quality">Bad</label>
 					<button>Submit</button>
 				</form>
 			</section>
@@ -61,51 +68,17 @@ class Form extends React.Component{
 
 // header functionality (authentication)
 class Header extends React.Component{
-	constructor(){
-		super();
-		this.state = {
-			user: null,
-		}
-		this.login = this.login.bind(this);
-		this.logout = this.logout.bind(this);
-	}
-	componentDidMount() {
-		auth.onAuthStateChanged((user) => {
-			if(user){
-				this.setState({
-					user: user,
-				});
-			}
-		});
-	}
-	login() {
-		auth.signInWithPopup(provider) 
-		.then((result) => {
-			const user = result.user;
-				this.setState({
-				user: user,
-			});
-			this.props.getUser(this.state.user);
-		});
-	}
-	logout() {
-		auth.signOut()
-		.then(() => {
-			this.setState({
-				user: null
-			});
-			this.props.getUser(this.state.user);
-		});
-	}
 	render(){
 		return(
 			<header>
-				<h1>Movie Playlist Generator</h1>
-				{this.state.user ?
-					<button onClick={this.logout}>Log Out</button>
-					:
-					<button onClick={this.login}>Log In</button>
-				}
+				<div className="wrapper">
+					<h1>Movie Playlist Generator</h1>
+					{this.props.user ?
+						<button onClick={this.props.logout}>Log Out</button>
+						:
+						<button onClick={this.props.login}>Log In</button>
+					}
+				</div>
 			</header>
 		)
 	}
@@ -121,7 +94,7 @@ class ResultsContainer extends React.Component{
 	render(){
 		return(
 			<div className="resultsContainer">
-				<form onSubmit={this.savePlaylist}>
+				<form>
 					<h2>Here's your playlist!</h2>
 					{
 						this.props.playlist.map((movie) => {
@@ -137,8 +110,9 @@ class ResultsContainer extends React.Component{
 							);
 						})
 					}
-					<h4>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h4>
-					<button>Save</button>
+					<h3>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h3>
+					<button onClick={this.savePlaylist}>Save</button>
+					<button onClick={this.retry}>Retry</button>
 				</form>
 			</div>
 		);
@@ -170,8 +144,39 @@ class App extends React.Component {
 			playlistComplete: false,
 			availableTime: 0,
 			user: null,
+			retryButton: false
 		}
 		this.getUser = this.getUser.bind(this);
+		this.login = this.login.bind(this);
+		this.logout = this.logout.bind(this);
+	}
+	componentDidMount() {
+		auth.onAuthStateChanged((user) => {
+			if(user){
+				this.setState({
+					user: user,
+				});
+			}
+		});
+	}
+	login() {
+		auth.signInWithPopup(provider) 
+		.then((result) => {
+			const user = result.user;
+				this.setState({
+				user: user,
+			});
+			this.props.getUser(this.state.user);
+		});
+	}
+	logout() {
+		auth.signOut()
+		.then(() => {
+			this.setState({
+				user: null
+			});
+			this.props.getUser(this.state.user);
+		});
 	}
 	acceptResults(movieList){
 		this.setState({
@@ -216,7 +221,7 @@ class App extends React.Component {
 		}
 	}
 	displayContent(){
-		if(this.state.playlistComplete === false){
+		if(this.state.playlistComplete === false || this.props.retryButton === true){
 			return(
 				<Form 
 					onAcceptResults={(movieList) => this.acceptResults(movieList)}
@@ -234,7 +239,6 @@ class App extends React.Component {
 		}
 	}
 	getUser(user){
-		console.log('user', user);
 		this.setState({
 			user: user,
 		});
@@ -242,7 +246,7 @@ class App extends React.Component {
 	render(){
 		return(
 			<div className='app'>
-				<Header getUser={this.getUser}/>
+				<Header getUser={this.getUser} login={this.login} logout={this.logout} user={this.state.user}/>
 				<main>
 					<div className="wrapper">
 						{this.state.user ?

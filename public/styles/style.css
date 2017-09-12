@@ -158,7 +158,7 @@ button {
   font-size: 1.6rem;
   font-weight: bold;
   text-transform: uppercase;
-  min-width: 15rem;
+  min-width: 12.5rem;
   border-radius: 0.4rem;
   cursor: pointer;
   border: 0;
@@ -174,10 +174,11 @@ header {
     justify-content: space-between;
     align-items: center; }
   header img {
-    width: 10rem; }
+    width: 12.5rem;
+    margin: -1rem 0 -2rem; }
   header h1 {
     text-transform: uppercase;
-    font-size: 3rem;
+    font-size: 4rem;
     margin-bottom: 2rem; }
   header button {
     margin-bottom: 2rem; }
@@ -186,9 +187,26 @@ main .wrapper {
   padding: 4rem 0;
   position: relative; }
 
+main i {
+  color: #103D5D;
+  width: 100%;
+  text-align: center; }
+  main i::before {
+    font-size: 10rem; }
+
+main h6 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  color: #103D5D;
+  text-align: center;
+  width: 50%;
+  margin: 6rem auto 10rem;
+  line-height: 1.6; }
+
 .mainContainer {
   display: flex;
-  justify-content: space-between; }
+  justify-content: space-between;
+  padding-bottom: 10rem; }
 
 .userProfile {
   border-radius: 50%;
@@ -196,13 +214,26 @@ main .wrapper {
   position: absolute;
   bottom: 2rem;
   left: 2rem;
+  border: 0.2rem solid #805be7;
   box-shadow: 0 2px 5px 0 #081c24; }
 
-aside {
-  background: #103D5D; }
+.userInput {
+  background: #FA6900;
+  width: calc(100% / 3 * 2);
+  border-radius: 0.4rem;
+  margin-right: 2rem; }
 
-form {
-  background: #FA6900; }
+.resultsContainer {
+  background: #FA6900;
+  width: calc(100% / 3 * 2);
+  border-radius: 0.4rem;
+  margin-right: 2rem; }
+
+.savedContainer {
+  background: #103D5D;
+  width: calc(100% / 3);
+  border-radius: 0.4rem;
+  margin-left: 2rem; }
 
 footer {
   color: #f4f4f4;

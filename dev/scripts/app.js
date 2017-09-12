@@ -55,7 +55,7 @@ class Form extends React.Component{
 				<h2>How much time do you have?</h2>
 				<input required type='number' name='time' onChange={(event) => this.handleChange(event)}/>
 				<label htmlFor="time">hours</label>
-				<h4>Video Quality</h4>
+				<h4>What quality of movie are you looking for?</h4>
 				<label htmlFor="quality">Good</label>
 				<input type="range" name='quality' min="1" max="20" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
 				<label htmlFor="quality">Bad</label>
@@ -72,7 +72,7 @@ class Header extends React.Component{
 			<header>
 				<div className="wrapper">
 					<img src="/assets/film-reel.svg" alt="Film reel"/>
-					<h1>Movie Playlist Generator</h1>
+					<h1>Playlist Picker</h1>
 					{/*Created by Bohdan Burmich*/}
 					{/*from the Noun Project*/}
 					{this.props.user ?
@@ -284,15 +284,15 @@ class App extends React.Component {
 	}
 	savedPlaylists(){
 		return(
-			<aside className='savedPlaylists'>
+			<aside className='savedContainer'>
 				<h3>Saved Playlists</h3>
 				<ul>
 					{this.state.playlists.map(item => {
 						return (
-							<li key={item.id}>
+							<li key={item.id} className="savedPlaylist">
 								{item.map(movie => {
 									return (
-										<div className="savedContainer" key={movie.id}>
+										<div className="savedMovie" key={movie.id}>
 											<img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Movie Backdrop"/>
 											<h4>{movie.original_title}</h4>
 											<h5>{`Run Time: ${movie.runtime} minutes`}</h5>
@@ -326,7 +326,8 @@ class App extends React.Component {
 						</div>
 						:
 						<div className="wrapper">
-							<h2>You must be logged in to use the playlist generator.</h2>
+							<i className="fa fa-film aria-hidden"></i>
+							<h6>You must be logged in to use the playlist picker</h6>
 						</div>
 					}
 				</main>

@@ -128,9 +128,12 @@ class ResultsContainer extends React.Component{
 
 class Movie extends React.Component{
 	render(){
+		let backgroundStyles = {
+			backgroundImage: `url(https://image.tmdb.org/t/p/w500/${this.props.movieBackdrop})`
+		}
 		return(
-			<div className="movieContainer">
-				<img src={`https://image.tmdb.org/t/p/w500/${this.props.movieBackdrop}`} alt="Movie Backdrop"/>
+			<div className="movieContainer" style={backgroundStyles}>
+				{/*<img src={`https://image.tmdb.org/t/p/w500/${this.props.movieBackdrop}`} alt="Movie Backdrop"/>*/}
 				<img src={`https://image.tmdb.org/t/p/w154/${this.props.moviePoster}`} alt="Movie Poster"/>
 				<h2>{this.props.movieTitle}</h2>
 				<h4>{this.props.movieTagline}</h4>
@@ -315,11 +318,11 @@ class App extends React.Component {
 				<main>
 					{this.state.user ?
 						<div className="wrapper">
-							<div class="mainContainer">
+							<div className="mainContainer">
 								{this.displayContent()}
 								{this.savedPlaylists()}
 							</div>
-							<img src={this.state.user.photoURL}/>
+							<img className="userProfile" src={this.state.user.photoURL}/>
 						</div>
 						:
 						<div className="wrapper">

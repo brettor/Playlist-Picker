@@ -138,8 +138,7 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
   line-height: 1; }
 
 html {
-  font-size: 62.5%;
-  height: 100vh; }
+  font-size: 62.5%; }
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -185,10 +184,13 @@ header {
 
 main .wrapper {
   padding: 4rem 0;
-  height: 75vh;
   position: relative; }
 
-main img {
+.mainContainer {
+  display: flex;
+  justify-content: space-between; }
+
+.userProfile {
   border-radius: 50%;
   width: 10rem;
   position: absolute;
@@ -196,11 +198,11 @@ main img {
   left: 2rem;
   box-shadow: 0 2px 5px 0 #081c24; }
 
-form {
-  background: #FA6900; }
-
 aside {
   background: #103D5D; }
+
+form {
+  background: #FA6900; }
 
 footer {
   color: #f4f4f4;

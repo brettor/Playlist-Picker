@@ -6,7 +6,6 @@
 }
 html{
 	font-size: 62.5%;
-	height: 100vh;
 }
 body {
 	font-family: 'Open Sans', sans-serif;
@@ -59,24 +58,31 @@ header{
 main{
 	.wrapper{
 		padding: 4rem 0;
-		height: 75vh;
 		position: relative;
 	}
-	img{
-		border-radius: 50%;
-		width: 10rem;
-		position: absolute;
-		bottom: 2rem;
-		left: 2rem;
-		box-shadow: 0 2px 5px 0 $accentDark;
-	}
 }
-form{
-	background: $crazyOrange;
+.mainContainer{
+	display: flex;
+	justify-content: space-between;
 }
+.userProfile{
+	border-radius: 50%;
+	width: 10rem;
+	position: absolute;
+	bottom: 2rem;
+	left: 2rem;
+	box-shadow: 0 2px 5px 0 $accentDark;
+}
+// saved container styles
 aside{
 	background: $darkBlue;
 }
+// form styles
+form{
+	background: $crazyOrange;
+}
+// results container styles
+
 // footer styles
 footer{
 	color: $mainGrey;

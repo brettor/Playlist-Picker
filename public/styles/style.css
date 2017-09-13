@@ -177,6 +177,9 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center; }
+    @media (max-width: 768px) {
+      header .wrapper {
+        flex-direction: column; } }
   header img {
     width: 12.5rem;
     margin: -1rem 0 -2rem; }
@@ -211,6 +214,9 @@ main h6 {
   display: flex;
   justify-content: space-between;
   padding-bottom: 10rem; }
+  @media (max-width: 768px) {
+    .mainContainer {
+      flex-direction: column; } }
 
 .userProfile {
   border-radius: 50%;
@@ -220,6 +226,10 @@ main h6 {
   left: 2rem;
   border: 0.2rem solid #805be7;
   box-shadow: 0 2px 5px 0 #081c24; }
+  @media (max-width: 768px) {
+    .userProfile {
+      left: 50%;
+      transform: translateX(-50%); } }
 
 .userInput {
   background: #103D5D;
@@ -230,6 +240,10 @@ main h6 {
   display: flex;
   flex-direction: column;
   align-items: center; }
+  @media (max-width: 768px) {
+    .userInput {
+      margin: 0 1rem 0 1rem;
+      width: calc(100% - 2rem); } }
   .userInput h2 {
     font-size: 3rem;
     margin: 2rem 0; }
@@ -271,6 +285,10 @@ main h6 {
   border-radius: 0.4rem;
   margin-right: 1.5rem;
   padding: 0 2rem; }
+  @media (max-width: 768px) {
+    .resultsContainer {
+      margin: 0 1rem 0 1rem;
+      width: calc(100% - 2rem); } }
   .resultsContainer h2 {
     font-size: 3rem;
     margin: 2rem 0;
@@ -288,7 +306,6 @@ main h6 {
   margin-bottom: 2rem; }
 
 .movieContainer {
-  background: linear-gradient(45deg, rgba(8, 28, 36, 0.5), rgba(8, 28, 36, 0.5));
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -325,21 +342,31 @@ main h6 {
   flex-direction: column;
   align-items: center;
   padding: 0 2rem; }
+  @media (max-width: 768px) {
+    .savedContainer {
+      width: calc(100% - 2rem);
+      margin: 2rem 1rem 0 1rem; } }
   .savedContainer h3 {
     font-size: 2.5rem;
     margin: 2rem 0; }
   .savedContainer button {
-    margin: 1rem auto; }
+    margin: 2rem auto; }
   .savedContainer h4 {
     font-size: 2rem; }
   .savedContainer h5 {
     font-size: 1.4rem; }
+  @media (max-width: 768px) {
+    .savedContainer ul {
+      width: calc(100% - 4rem); } }
 
 .savedMovie {
   border: 0.1rem solid #805be7;
   width: 100%;
   text-align: center;
   padding: 0.5rem 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   text-shadow: -1px -1px 0 #081c24, 1px -1px 0 #081c24, -1px 1px 0 #081c24, 1px 1px 0 #081c24; }
 
 footer {
@@ -350,8 +377,14 @@ footer {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0; }
+    @media (max-width: 768px) {
+      footer .wrapper {
+        flex-direction: column; } }
   footer h6 {
     font-size: 1.4rem;
     letter-spacing: 0.1rem; }
   footer img {
     width: 5rem; }
+    @media (max-width: 768px) {
+      footer img {
+        margin: 1rem 0; } }

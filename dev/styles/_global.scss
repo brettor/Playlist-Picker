@@ -45,6 +45,9 @@ header{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		@include responsive('medium'){
+			flex-direction: column;
+		}
 	}
 	img{
 		width: 12.5rem;
@@ -87,6 +90,9 @@ main{
 	display: flex;
 	justify-content: space-between;
 	padding-bottom: 10rem;
+	@include responsive('medium'){
+		flex-direction: column;
+	}
 }
 .userProfile{
 	border-radius: 50%;
@@ -96,6 +102,10 @@ main{
 	left: 2rem;
 	border: 0.2rem solid $coolPurple;
 	box-shadow: 0 2px 5px 0 $accentDark;
+	@include responsive('medium'){
+		left: 50%;
+		transform: translateX(-50%);
+	}
 }
 // form styles
 .userInput{
@@ -107,6 +117,10 @@ main{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	@include responsive('medium'){
+		margin: 0 1rem 0 1rem;
+		width: calc(100% - 2rem);
+	}
 	h2{
 		font-size: 3rem;
 		margin: 2rem 0;
@@ -158,6 +172,10 @@ main{
 	border-radius: 0.4rem;
 	margin-right: 1.5rem;
 	padding: 0 2rem;
+	@include responsive('medium'){
+		margin: 0 1rem 0 1rem;
+		width: calc(100% - 2rem);
+	}
 	h2{
 		font-size: 3rem;
 		margin: 2rem 0;
@@ -178,7 +196,6 @@ main{
 	margin-bottom: 2rem;
 }
 .movieContainer{
-	background: linear-gradient(45deg, rgba(8,28,36,0.5), rgba(8,28,36,0.5));
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -223,12 +240,16 @@ main{
 	flex-direction: column;
 	align-items: center;
 	padding: 0 2rem;
+	@include responsive('medium'){
+		width: calc(100% - 2rem);
+		margin: 2rem 1rem 0 1rem;
+	}
 	h3{
 		font-size: 2.5rem;
 		margin: 2rem 0;
 	}
 	button{
-		margin: 1rem auto;
+		margin: 2rem auto;
 	}
 	h4{
 		font-size: 2rem;
@@ -236,12 +257,20 @@ main{
 	h5{
 		font-size: 1.4rem;
 	}
+	ul{
+		@include responsive('medium'){
+			width: calc(100% - 4rem);
+		}
+	}
 }
 .savedMovie{
 	border: 0.1rem solid $coolPurple;
 	width: 100%;
 	text-align: center;
 	padding: 0.5rem 0;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	text-shadow:
 	-1px -1px 0 $accentDark,
 	1px -1px 0 $accentDark,
@@ -257,6 +286,9 @@ footer{
 		justify-content: space-between;
 		align-items: center;
 		padding: 1rem 0;
+		@include responsive('medium'){
+			flex-direction: column;
+		}
 	}
 	h6{
 		font-size: 1.4rem;
@@ -264,5 +296,8 @@ footer{
 	}
 	img{
 		width: 5rem;
+		@include responsive('medium'){
+			margin: 1rem 0;
+		}
 	}
 }

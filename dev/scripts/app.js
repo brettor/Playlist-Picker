@@ -19,11 +19,9 @@ class Form extends React.Component{
 	}
 	submitForm(event){
 		event.preventDefault();
-		console.log(this.props)
 		this.props.reset();
 		let pageMin = this.state.quality* 10 - 9;
 		let pageMax = this.state.quality* 10;
-		console.log(pageMin, pageMax);
 		ajax({
 			url: `https://api.themoviedb.org/3/discover/movie`,
 			data: {
@@ -36,7 +34,6 @@ class Form extends React.Component{
 				page: Math.floor(Math.random() * (pageMax - pageMin) + pageMin),
 			}
 		}).then((res) => {
-			console.log(res);
 			const pages = res.total_pages;
 			const movies = res.results;
 			this.props.onAcceptTime(this.state.time);
@@ -53,12 +50,16 @@ class Form extends React.Component{
 		return(
 			<form className='userInput' onSubmit={(event) => this.submitForm(event)}>
 				<h2>How much time do you have?</h2>
-				<input required type='number' name='time' onChange={(event) => this.handleChange(event)}/>
-				<label htmlFor="time">hours</label>
+				<div className="hours">
+					<input required type='number' name='time' min='2' onChange={(event) => this.handleChange(event)}/>
+					<label htmlFor="time">hours</label>
+				</div>
 				<h4>What quality of movie are you looking for?</h4>
-				<label htmlFor="quality">Good</label>
-				<input type="range" name='quality' min="1" max="20" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
-				<label htmlFor="quality">Bad</label>
+				<div className="slider">
+					<label htmlFor="quality">Good</label>
+					<input type="range" name='quality' min="1" max="20" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
+					<label htmlFor="quality">Bad</label>
+				</div>
 				<button>Submit</button>
 			</form>
 		);
@@ -133,12 +134,12 @@ class Movie extends React.Component{
 		}
 		return(
 			<div className="movieContainer" style={backgroundStyles}>
-				{/*<img src={`https://image.tmdb.org/t/p/w500/${this.props.movieBackdrop}`} alt="Movie Backdrop"/>*/}
 				<img src={`https://image.tmdb.org/t/p/w154/${this.props.moviePoster}`} alt="Movie Poster"/>
-				<h2>{this.props.movieTitle}</h2>
-				<h4>{this.props.movieTagline}</h4>
-				<p>{this.props.movieDescription}</p>
-				<h5>{`Run Time: ${this.props.runtime} minutes`}</h5>
+				<div className="movieText">
+					<h2>{this.props.movieTitle}</h2>
+					<h4>{this.props.movieTagline}</h4>
+					<p>{this.props.movieDescription}</p>
+				</div>
 			</div>
 		)
 	}

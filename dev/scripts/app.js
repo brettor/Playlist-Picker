@@ -120,8 +120,10 @@ class ResultsContainer extends React.Component{
 					})
 				}
 				<h3>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h3>
-				<button onClick={this.savePlaylist}>Save</button>
-				<button onClick={this.props.retry}>Retry</button>
+				<div className="buttonContainer">
+					<button onClick={this.savePlaylist}>Save</button>
+					<button onClick={this.props.retry}>Retry</button>
+				</div>
 			</div>
 		);
 	}
@@ -134,7 +136,7 @@ class Movie extends React.Component{
 		}
 		return(
 			<div className="movieContainer" style={backgroundStyles}>
-				<img src={`https://image.tmdb.org/t/p/w154/${this.props.moviePoster}`} alt="Movie Poster"/>
+				<img className ="poster" src={`https://image.tmdb.org/t/p/w154/${this.props.moviePoster}`} alt="Movie Poster"/>
 				<div className="movieText">
 					<h2>{this.props.movieTitle}</h2>
 					<h4>{this.props.movieTagline}</h4>
@@ -292,9 +294,11 @@ class App extends React.Component {
 						return (
 							<li key={item.id} className="savedPlaylist">
 								{item.map(movie => {
+									let backgroundSaved = {
+										backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie.backdrop_path})`
+									}
 									return (
-										<div className="savedMovie" key={movie.id}>
-											<img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="Movie Backdrop"/>
+										<div className="savedMovie" key={movie.id} style={backgroundSaved}>
 											<h4>{movie.original_title}</h4>
 											<h5>{`Run Time: ${movie.runtime} minutes`}</h5>
 										</div>

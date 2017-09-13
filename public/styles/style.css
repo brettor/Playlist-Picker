@@ -141,7 +141,7 @@ html {
   font-size: 62.5%; }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   background-color: #f4f4f4; }
 
 .wrapper {
@@ -155,8 +155,9 @@ img {
 button {
   color: #081c24;
   background: #01d277;
-  font-size: 1.6rem;
-  font-weight: bold;
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 700;
   text-transform: uppercase;
   min-width: 12.5rem;
   border-radius: 0.4rem;
@@ -164,6 +165,9 @@ button {
   border: 0;
   box-shadow: 0 2px 5px 0 #081c24;
   padding: 1rem 0.5rem; }
+
+ul {
+  list-style: none; }
 
 header {
   color: #f4f4f4;
@@ -178,7 +182,7 @@ header {
     margin: -1rem 0 -2rem; }
   header h1 {
     text-transform: uppercase;
-    font-size: 4rem;
+    font-size: 5rem;
     margin-bottom: 2rem; }
   header button {
     margin-bottom: 2rem; }
@@ -195,7 +199,7 @@ main i {
     font-size: 10rem; }
 
 main h6 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   text-transform: uppercase;
   color: #103D5D;
   text-align: center;
@@ -227,7 +231,7 @@ main h6 {
   flex-direction: column;
   align-items: center; }
   .userInput h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin: 2rem 0; }
   .userInput .hours {
     display: flex;
@@ -238,18 +242,19 @@ main h6 {
   .userInput input[type=number] {
     border: none;
     height: 4rem;
-    font-size: 3rem;
+    font-size: 4rem;
+    font-weight: 700;
     width: 10rem;
     text-align: center;
     color: #081c24; }
   .userInput h4 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin: 2rem 0; }
   .userInput .slider {
     display: flex;
     align-items: center; }
     .userInput .slider label {
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin: 0 1rem; }
   .userInput input[type=range] {
     appearance: none;
@@ -264,13 +269,23 @@ main h6 {
   color: #f4f4f4;
   width: calc(100% / 3 * 2);
   border-radius: 0.4rem;
-  margin-right: 1.5rem; }
+  margin-right: 1.5rem;
+  padding: 0 2rem; }
   .resultsContainer h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin: 2rem 0;
     text-align: center; }
   .resultsContainer button {
     margin: 1rem; }
+  .resultsContainer h3 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 2rem 0; }
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem; }
 
 .movieContainer {
   background: linear-gradient(45deg, rgba(8, 28, 36, 0.5), rgba(8, 28, 36, 0.5));
@@ -279,13 +294,26 @@ main h6 {
   background-size: cover;
   display: flex;
   justify-content: space-between;
-  align-items: center; }
+  align-items: center;
+  border: 0.2rem solid #805be7;
+  letter-spacing: 0.1rem;
+  text-shadow: -1px -1px 0 #081c24, 1px -1px 0 #081c24, -1px 1px 0 #081c24, 1px 1px 0 #081c24; }
   .movieContainer h2 {
     text-align: left; }
 
+.poster {
+  border: 0.1rem solid #081c24;
+  border-right: 0.2rem solid #081c24; }
+
 .movieText {
-  padding-left: 2rem;
+  padding: 0 2rem;
   height: 100%; }
+  .movieText h4 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem; }
+  .movieText p {
+    font-size: 1.2rem;
+    line-height: 1.2; }
 
 .savedContainer {
   background: #103D5D;
@@ -295,10 +323,24 @@ main h6 {
   margin-left: 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center; }
+  align-items: center;
+  padding: 0 2rem; }
   .savedContainer h3 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin: 2rem 0; }
+  .savedContainer button {
+    margin: 1rem auto; }
+  .savedContainer h4 {
+    font-size: 2rem; }
+  .savedContainer h5 {
+    font-size: 1.4rem; }
+
+.savedMovie {
+  border: 0.1rem solid #805be7;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0;
+  text-shadow: -1px -1px 0 #081c24, 1px -1px 0 #081c24, -1px 1px 0 #081c24, 1px 1px 0 #081c24; }
 
 footer {
   color: #f4f4f4;

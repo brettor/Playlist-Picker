@@ -140,9 +140,6 @@ main{
 		width: 20rem;
 		background: transparent;
 		border-radius: 0.4rem;
-		&::-webkit-slider-thumb{
-			border-radius: 50%;
-		}
 	}
 	button{
 		margin: 2rem 0;
@@ -160,6 +157,26 @@ main{
 		margin: 2rem 0;
 		text-align: center;
 	}
+	button{
+		margin: 1rem;
+	}
+}
+.movieContainer{
+	background: linear-gradient(45deg, rgba(8,28,36,0.5), rgba(8,28,36,0.5));
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	h2{
+		text-align: left;
+	}
+}
+.movieText{
+	// background: linear-gradient(45deg, rgba(8,28,36,0.5), rgba(8,28,36,0.5));
+	padding-left: 2rem;
+	height: 100%;
 }
 // saved container styles
 .savedContainer{

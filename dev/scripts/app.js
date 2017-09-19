@@ -72,7 +72,7 @@ class Header extends React.Component{
 		return(
 			<header>
 				<div className="wrapper">
-					<img src="/assets/film-reel.svg" alt="Film reel"/>
+					<img src="../../assets/film-reel.svg" alt="Film reel"/>
 					<h1>Playlist Picker</h1>
 					{/*Created by Bohdan Burmich*/}
 					{/*from the Noun Project*/}
@@ -136,11 +136,13 @@ class Movie extends React.Component{
 		}
 		return(
 			<div className="movieContainer" style={backgroundStyles}>
-				<img className ="poster" src={`https://image.tmdb.org/t/p/w154/${this.props.moviePoster}`} alt="Movie Poster"/>
-				<div className="movieText">
-					<h2>{this.props.movieTitle}</h2>
-					<h4>{this.props.movieTagline}</h4>
-					<p>{this.props.movieDescription}</p>
+				<div className="overlay">
+					<img className ="poster" src={`https://image.tmdb.org/t/p/w154/${this.props.moviePoster}`} alt="Movie Poster"/>
+					<div className="movieText">
+						<h2>{this.props.movieTitle}</h2>
+						<h4>{this.props.movieTagline}</h4>
+						<p>{this.props.movieDescription}</p>
+					</div>
 				</div>
 			</div>
 		)
@@ -299,8 +301,10 @@ class App extends React.Component {
 									}
 									return (
 										<div className="savedMovie" key={movie.id} style={backgroundSaved}>
-											<h4>{movie.original_title}</h4>
-											<h5>{`Run Time: ${movie.runtime} minutes`}</h5>
+											<div className="overlay">
+												<h4>{movie.original_title}</h4>
+												<h5>{`Run Time: ${movie.runtime} minutes`}</h5>
+											</div>
 										</div>
 									)
 								})}
@@ -339,7 +343,7 @@ class App extends React.Component {
 				<footer>
 					<div className="wrapper">
 						<h6>&copy; 2017 Brett Nielsen</h6>
-						<img src="/assets/moviedb-logo.svg" alt="The Movie DB logo"/>
+						<img src="../../assets/moviedb-logo.svg" alt="The Movie DB logo"/>
 						<h6>Using The Movie DB API</h6>
 					</div>
 				</footer>

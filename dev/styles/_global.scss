@@ -199,20 +199,19 @@ main{
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	border: 0.2rem solid $coolPurple;
 	letter-spacing: 0.1rem;
-	// background-color: linear-gradient(45deg, rgba(8,28,36,0.5), rgba(8,28,36,0.5));
-	text-shadow:
-	-1px -1px 0 $accentDark,
-	1px -1px 0 $accentDark,
-	-1px 1px 0 $accentDark,
-	1px 1px 0 $accentDark;
 	h2{
 		text-align: left;
 	}
+	.overlay{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}
+.overlay{
+	background: linear-gradient(45deg, rgba(8,28,36,0.8), rgba(8,28,36,0.8));
 }
 .poster{
 	border: 0.1rem solid $accentDark;
@@ -220,7 +219,6 @@ main{
 }
 .movieText{
 	padding: 0 2rem;
-	height: 100%;
 	h4{
 		font-size: 1.6rem;
 		margin-bottom: 1rem;
@@ -268,15 +266,12 @@ main{
 	border: 0.1rem solid $coolPurple;
 	width: 100%;
 	text-align: center;
-	padding: 0.5rem 0;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	text-shadow:
-	-1px -1px 0 $accentDark,
-	1px -1px 0 $accentDark,
-	-1px 1px 0 $accentDark,
-	1px 1px 0 $accentDark;
+	.overlay{
+		padding: 0.5rem;
+	}
 }
 // footer styles
 footer{

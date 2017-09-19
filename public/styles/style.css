@@ -309,22 +309,24 @@ main h6 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   border: 0.2rem solid #805be7;
-  letter-spacing: 0.1rem;
-  text-shadow: -1px -1px 0 #081c24, 1px -1px 0 #081c24, -1px 1px 0 #081c24, 1px 1px 0 #081c24; }
+  letter-spacing: 0.1rem; }
   .movieContainer h2 {
     text-align: left; }
+  .movieContainer .overlay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+
+.overlay {
+  background: linear-gradient(45deg, rgba(8, 28, 36, 0.8), rgba(8, 28, 36, 0.8)); }
 
 .poster {
   border: 0.1rem solid #081c24;
   border-right: 0.2rem solid #081c24; }
 
 .movieText {
-  padding: 0 2rem;
-  height: 100%; }
+  padding: 0 2rem; }
   .movieText h4 {
     font-size: 1.6rem;
     margin-bottom: 1rem; }
@@ -363,11 +365,11 @@ main h6 {
   border: 0.1rem solid #805be7;
   width: 100%;
   text-align: center;
-  padding: 0.5rem 0;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
-  text-shadow: -1px -1px 0 #081c24, 1px -1px 0 #081c24, -1px 1px 0 #081c24, 1px 1px 0 #081c24; }
+  background-size: cover; }
+  .savedMovie .overlay {
+    padding: 0.5rem; }
 
 footer {
   color: #f4f4f4;

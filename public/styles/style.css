@@ -289,13 +289,15 @@ main h6 {
 
 .fa-thumbs-o-up {
   margin-right: 2rem;
-  color: #01d277; }
+  color: #01d277;
+  margin-top: 0; }
   .fa-thumbs-o-up::before {
     font-size: 5rem; }
 
 .fa-thumbs-o-down {
   margin-right: 2rem;
-  color: #FA6900; }
+  color: #FA6900;
+  margin-top: 0; }
   .fa-thumbs-o-down::before {
     font-size: 5rem; }
 

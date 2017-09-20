@@ -178,15 +178,17 @@ main{
 .fa-thumbs-o-up{
 	margin-right: 2rem;
 	color: $coolGreen;
+	margin-top: 0;
 	&::before{
-	font-size: 5rem;
+		font-size: 5rem;
 	}
 }
 .fa-thumbs-o-down{
 	margin-right: 2rem;
 	color: $crazyOrange;
+	margin-top: 0;
 	&::before{
-	font-size: 5rem;
+		font-size: 5rem;
 	}
 }
 // results container styles

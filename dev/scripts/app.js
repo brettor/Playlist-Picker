@@ -72,7 +72,7 @@ class Header extends React.Component{
 		return(
 			<header>
 				<div className="wrapper">
-					<img src="../../assets/film-reel.svg" alt="Film reel"/>
+					<img src="./assets/film-reel.svg" alt="Film reel"/>
 					<h1>Playlist Picker</h1>
 					{/*Created by Bohdan Burmich*/}
 					{/*from the Noun Project*/}
@@ -347,7 +347,7 @@ class App extends React.Component {
 				<footer>
 					<div className="wrapper">
 						<h6>&copy; 2017 Brett Nielsen</h6>
-						<img src="../../assets/moviedb-logo.svg" alt="The Movie DB logo"/>
+						<img src="./assets/moviedb-logo.svg" alt="The Movie DB logo"/>
 						<h6>Using The Movie DB API</h6>
 					</div>
 				</footer>

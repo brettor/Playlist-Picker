@@ -29,9 +29,16 @@ button{
 	min-width: 12.5rem;
 	border-radius: 0.4rem;
 	cursor: pointer;
-	border: 0;
+	border: none;
 	box-shadow: 0 2px 5px 0 $accentDark;
 	padding: 1rem 0.5rem;
+	&:hover, &:focus{
+		background: $coolPurple;
+		transition: all 0.3s;
+	}
+	&:active{
+		background: $crazyOrange;
+	}
 }
 ul{
 	list-style: none;
@@ -54,6 +61,7 @@ header{
 		margin: -1rem 0 -2rem;
 	}
 	h1{
+		font-family: $headFont;
 		text-transform: uppercase;
 		font-size: 5rem;
 		margin-bottom: 2rem;
@@ -100,7 +108,7 @@ main{
 	position: absolute;
 	bottom: 2rem;
 	left: 2rem;
-	border: 0.2rem solid $coolPurple;
+	border: 0.2rem solid $crazyOrange;
 	box-shadow: 0 2px 5px 0 $accentDark;
 	@include responsive('medium'){
 		left: 50%;
@@ -139,7 +147,7 @@ main{
 		font-size: 4rem;
 		font-weight: 700;
 		width: 10rem;
-		text-align: center;
+		text-align: right;
 		color: $accentDark;
 	}
 	h4{
@@ -199,8 +207,13 @@ main{
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	border: 0.2rem solid $coolPurple;
+	border-left: 0.2rem solid $coolPurple;
+	border-top: 0.2rem solid $coolPurple;
+	border-right: 0.2rem solid $coolPurple;
 	letter-spacing: 0.1rem;
+	&:last-of-type{
+		border-bottom: 0.2rem solid $coolPurple;
+	}
 	h2{
 		text-align: left;
 	}
@@ -212,10 +225,6 @@ main{
 }
 .overlay{
 	background: linear-gradient(45deg, rgba(8,28,36,0.8), rgba(8,28,36,0.8));
-}
-.poster{
-	border: 0.1rem solid $accentDark;
-	border-right: 0.2rem solid $accentDark;
 }
 .movieText{
 	padding: 0 2rem;
@@ -263,12 +272,17 @@ main{
 	}
 }
 .savedMovie{
-	border: 0.1rem solid $coolPurple;
 	width: 100%;
 	text-align: center;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	border-left: 0.2rem solid $coolPurple;
+	border-top: 0.2rem solid $coolPurple;
+	border-right: 0.2rem solid $coolPurple;
+	&:last-of-type{
+		border-bottom: 0.2rem solid $coolPurple;
+	}
 	.overlay{
 		padding: 0.5rem;
 	}

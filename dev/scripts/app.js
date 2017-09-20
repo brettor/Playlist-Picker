@@ -51,7 +51,7 @@ class Form extends React.Component{
 			<form className='userInput' onSubmit={(event) => this.submitForm(event)}>
 				<h2>How much time do you have?</h2>
 				<div className="hours">
-					<input required type='number' name='time' min='2' onChange={(event) => this.handleChange(event)}/>
+					<input required type='number' name='time' min='2' step="any" onChange={(event) => this.handleChange(event)}/>
 					<label htmlFor="time">hours</label>
 				</div>
 				<h4>What quality of movie are you looking for?</h4>
@@ -105,20 +105,22 @@ class ResultsContainer extends React.Component{
 		return(
 			<div className="resultsContainer">
 				<h2>Here's your playlist!</h2>
-				{
-					this.props.playlist.map((movie) => {
-						return(
-							<Movie 
-								movieBackdrop = {movie.backdrop_path}
-								moviePoster = {movie.poster_path}
-								movieTitle = {movie.original_title}
-								movieTagline = {movie.tagline}
-								movieDescription = {movie.overview}
-								key = {movie.id}
-							/>
-						);
-					})
-				}
+				<div className="moviesContainer">
+					{
+						this.props.playlist.map((movie) => {
+							return(
+								<Movie 
+									movieBackdrop = {movie.backdrop_path}
+									moviePoster = {movie.poster_path}
+									movieTitle = {movie.original_title}
+									movieTagline = {movie.tagline}
+									movieDescription = {movie.overview}
+									key = {movie.id}
+								/>
+							);
+						})
+					}
+				</div>
 				<h3>You have {this.props.availableTime} minutes remaining for popcorn breaks!</h3>
 				<div className="buttonContainer">
 					<button onClick={this.savePlaylist}>Save</button>

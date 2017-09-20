@@ -54,11 +54,11 @@ class Form extends React.Component{
 					<input required type='number' name='time' min='2' step="any" onChange={(event) => this.handleChange(event)}/>
 					<label htmlFor="time">hours</label>
 				</div>
-				<h4>What quality of movie are you looking for?</h4>
+				<h2>...what quality are you looking for?</h2>
 				<div className="slider">
-					<label htmlFor="quality">Good</label>
+					<label htmlFor="quality"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i></label>
 					<input type="range" name='quality' min="1" max="20" defaultValue="1" onChange={(event) => this.handleChange(event)}/>
-					<label htmlFor="quality">Bad</label>
+					<label htmlFor="quality"><i className="fa fa-thumbs-o-down fa-flip-horizontal" aria-hidden="true"></i></label>
 				</div>
 				<button>Submit</button>
 			</form>
@@ -337,8 +337,10 @@ class App extends React.Component {
 						</div>
 						:
 						<div className="wrapper">
-							<i className="fa fa-film aria-hidden"></i>
-							<h6>You must be logged in to use the playlist picker</h6>
+							<div className="loggedOut">
+								<i className="fa fa-film aria-hidden"></i>
+								<h6>You must be logged in to use the playlist picker</h6>
+							</div>
 						</div>
 					}
 				</main>
